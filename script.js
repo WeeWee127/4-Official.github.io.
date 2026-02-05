@@ -176,8 +176,8 @@ const observer = new IntersectionObserver((entries) => {
 
 // Применяем анимацию к элементам
 document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.player-card, .timeline-item, .stat-item, .match-card, .sponsor-card');
-    
+    const animateElements = document.querySelectorAll('.timeline-item, .stat-item, .match-card, .sponsor-card');
+
     animateElements.forEach((el, index) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -296,14 +296,37 @@ if (statsSection) {
     statsObserver.observe(statsSection);
 }
 
-// Добавляем эффект свечения при наведении на карточки игроков
-document.querySelectorAll('.player-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.boxShadow = '0 10px 40px rgba(0, 255, 136, 0.3)';
+// Эффект мягкого 3D-tilt для карточек игроков (по всей площади, без рывков)
+const playerCards = document.querySelectorAll('.player-card');
+playerCards.forEach(card => {
+    const getRect = () => card.getBoundingClientRect();
+
+    function applyTilt(e) {
+        const r = getRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const centerX = r.width / 2;
+        const centerY = r.height / 2;
+
+        const rotateY = ((x - centerX) / centerX) * 10;
+        const rotateX = -((y - centerY) / centerY) * 10;
+
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+
+    card.addEventListener('mouseenter', (e) => {
+        card.style.transition = 'transform 0.12s ease-out';
+        applyTilt(e);
     });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.boxShadow = '';
+
+    card.addEventListener('mousemove', (e) => {
+        card.style.transition = 'transform 0.08s ease-out';
+        applyTilt(e);
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.25s ease-out';
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
 });
 
