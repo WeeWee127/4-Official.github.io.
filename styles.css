@@ -1089,6 +1089,145 @@ section {
     height: 18px;
 }
 
+/* Командный дух */
+.team-spirit {
+    background: var(--darker-bg);
+}
+
+.spirit-subtitle {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    color: var(--text-secondary);
+}
+
+.spirit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.spirit-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.spirit-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(120deg, rgba(0, 255, 136, 0.4), transparent, rgba(255, 0, 255, 0.4));
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.spirit-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 255, 136, 0.25);
+    border-color: var(--primary-color);
+}
+
+.spirit-card:hover::before {
+    opacity: 1;
+}
+
+.spirit-player {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.spirit-role {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.spirit-quote {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    position: relative;
+}
+
+.spirit-quote::before {
+    content: '“';
+    position: absolute;
+    left: -10px;
+    top: -8px;
+    color: rgba(0, 255, 136, 0.6);
+    font-size: 1.6rem;
+}
+
+.spirit-audio-btn {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.spirit-audio-btn:hover {
+    background: rgba(0, 255, 136, 0.12);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.spirit-audio-btn.is-playing {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: var(--accent);
+}
+
+.spirit-audio-icon {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.spirit-audio-icon span {
+    width: 2px;
+    height: 10px;
+    background: var(--primary-color);
+    border-radius: 999px;
+    opacity: 0.7;
+}
+
+.spirit-audio-btn.is-playing .spirit-audio-icon span:nth-child(1) {
+    animation: audio-bar 0.4s infinite ease-in-out;
+}
+
+.spirit-audio-btn.is-playing .spirit-audio-icon span:nth-child(2) {
+    animation: audio-bar 0.4s infinite ease-in-out 0.1s;
+}
+
+.spirit-audio-btn.is-playing .spirit-audio-icon span:nth-child(3) {
+    animation: audio-bar 0.4s infinite ease-in-out 0.2s;
+}
+
+@keyframes audio-bar {
+    0%, 100% { height: 4px; opacity: 0.4; }
+    50% { height: 12px; opacity: 1; }
+}
+
 /* Достижения */
 .achievements {
     background: var(--darker-bg);

@@ -307,6 +307,52 @@ document.querySelectorAll('.player-card').forEach(card => {
     });
 });
 
+// Аудио-цитаты в блоке "Командный дух"
+const spiritButtons = document.querySelectorAll('.spirit-audio-btn');
+if (spiritButtons.length) {
+    const audios = new Map();
+    let currentButton = null;
+
+    spiritButtons.forEach(btn => {
+        const src = btn.getAttribute('data-audio');
+        if (!src) return;
+
+        const audio = new Audio(src);
+        audio.preload = 'none';
+        audios.set(btn, audio);
+
+        audio.addEventListener('ended', () => {
+            btn.classList.remove('is-playing');
+            if (currentButton === btn) currentButton = null;
+        });
+
+        btn.addEventListener('click', () => {
+            const currentAudio = audios.get(btn);
+            if (!currentAudio) return;
+
+            // Останавливаем все остальные
+            audios.forEach((a, b) => {
+                if (b !== btn) {
+                    a.pause();
+                    a.currentTime = 0;
+                    b.classList.remove('is-playing');
+                }
+            });
+
+            if (btn.classList.contains('is-playing')) {
+                currentAudio.pause();
+                btn.classList.remove('is-playing');
+                currentButton = null;
+            } else {
+                currentAudio.currentTime = 0;
+                currentAudio.play();
+                btn.classList.add('is-playing');
+                currentButton = btn;
+            }
+        });
+    });
+}
+
 // Предотвращаем отправку формы при пустых полях
 const formInputs = document.querySelectorAll('#contactForm input, #contactForm textarea');
 formInputs.forEach(input => {
